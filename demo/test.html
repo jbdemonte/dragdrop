@@ -1,0 +1,49 @@
+<html>
+    <head> 
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="../jquery/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="../dragdrop.js"></script>
+        <style>
+            #target,
+            #source{
+                height: 75px;
+                width: 220px;
+                border: 1px solid #000000;
+                margin-bottom: 10px;
+            }
+            #target div,
+            #source div{
+                height: 50px;
+                width: 50px;
+                border: 1px solid #FF0000;
+                margin: 10px;
+                float: left;
+            }
+        </style>
+    
+        <script type="text/javascript">
+            var list = [1, 2, 3];
+            $(function () {
+                $.each(list, function(_, value){
+                    var div = $(document.createElement("div"));
+                    div.drag(value);
+                    $("#source").append(div);
+                });
+                $("#target").drop(
+                    function (event, data) {
+                        if (data !== 2) {
+                            event.preventDefault();
+                        }
+                    },
+                    function (event, data) {
+                        $("#target").append(data + ",");
+                    }
+                );
+            });
+        </script>  
+    </head>
+    <body>
+        <div id="source"></div>  
+        <div id="target"></div>
+    </body>
+</html>

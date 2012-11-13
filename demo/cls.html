@@ -1,0 +1,73 @@
+<html>
+    <head> 
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="../jquery/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="../dragdrop.js"></script>
+        <style>
+            #target,
+            #source,
+            #teachers{
+                min-height: 75px;
+                width: 490px;
+                border: 1px solid #000000;
+                margin-bottom: 10px;
+                overflow: auto;
+            }
+            #target div,
+            #source div,
+            #teachers div{
+                height: 50px;
+                line-height: 50px;
+                width: 100px;
+                border: 1px solid #FF0000;
+                margin: 10px;
+                float: left;
+                text-align: center;
+            }
+        </style>
+    
+        <script type="text/javascript">
+            function Teacher(name) {
+                this.name = name;
+            }
+            function Student(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+            var list = [];
+            
+            list.push(new Student("John", 12));
+            list.push(new Teacher("Martin"));
+            list.push(new Student("July", 11));
+            list.push(new Teacher("Paul"));
+        
+            $(function () {
+                $.each(list, function(_, people){
+                    var div = $(document.createElement("div")).text(people.name);
+                    div.drag(people);
+                    $("#source").append(div);
+                });
+                $("#target").drop(
+                    function (event, people) {
+                      var txt = people.name;
+                      if (people instanceof Student) {
+                        txt += " (" + people.age + ")";
+                      }
+                      $("#target").append($(document.createElement("div")).text(txt));
+                      
+                      if (people instanceof Teacher) {
+                        $("#teachers").append($(document.createElement("div")).text(txt));
+                      }
+                    }
+                );
+            });
+        </script>  
+    </head>
+    <body>
+        <div id="source"></div>
+        <p>Drop here:</p>  
+        <div id="target"></div>
+        <p>Teachers filtered</p>
+        <div id="teachers"></div>
+    </body>
+</html>
