@@ -29,16 +29,16 @@
                     div.drag(value);
                     $("#source").append(div);
                 });
-                $("#target").drop(
-                    function (event, data) {
+                $("#target").drop({
+                    hover: function (event, data) {
                         if (data !== 2) {
                             event.preventDefault();
                         }
                     },
-                    function (event, data) {
+                    drop: function (event, data) {
                         $("#target").append(data + ",");
                     }
-                );
+                });
             });
         </script>  
     </head>

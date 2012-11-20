@@ -4,7 +4,7 @@
         <script type="text/javascript" src="../jquery/jquery-1.8.2.min.js"></script>
         <script type="text/javascript" src="../dragdrop.js"></script>
         <style>
-            #target,
+            #students,
             #source,
             #teachers{
                 min-height: 75px;
@@ -13,7 +13,7 @@
                 margin-bottom: 10px;
                 overflow: auto;
             }
-            #target div,
+            #students div,
             #source div,
             #teachers div{
                 height: 50px;
@@ -23,6 +23,12 @@
                 margin: 10px;
                 float: left;
                 text-align: center;
+            }
+            .highlight{
+                background-color: #FFC4E6;
+            }
+            .ready{
+                border: 2px solid #FF0000 !important;
             }
         </style>
     
@@ -42,32 +48,74 @@
             list.push(new Teacher("Paul"));
         
             $(function () {
-                $.each(list, function(_, people){
+                $.each(list, function(_, people) {
                     var div = $(document.createElement("div")).text(people.name);
                     div.drag(people);
                     $("#source").append(div);
                 });
-                $("#target").drop(
-                    function (event, people) {
-                      var txt = people.name;
-                      if (people instanceof Student) {
-                        txt += " (" + people.age + ")";
-                      }
-                      $("#target").append($(document.createElement("div")).text(txt));
-                      
-                      if (people instanceof Teacher) {
-                        $("#teachers").append($(document.createElement("div")).text(txt));
-                      }
+                $("#teachers").drop({
+                    dragstart: function (event, people) {
+                        if (people instanceof Teacher) {
+                            $(this).addClass("ready");
+                            return true;
+                        }
+                    },
+                    dragend: function (event, people) {
+                        $(this).removeClass("ready");
+                    },
+                    enter: function (event, people) {
+                        if (people instanceof Teacher) {
+                            $(this).addClass("highlight");
+                            return true;
+                        }
+                        return false;
+                    },
+                    leave: function (event, people) {
+                        $(this).removeClass("highlight");
+                    },
+                    drop: function (event, people) {
+                        if (people instanceof Teacher) {
+                            $(this).append($(document.createElement("div")).text(people.name));
+                        }
+                        $(this).removeClass("highlight");
                     }
-                );
+                });
+                
+                $("#students").drop({
+                    dragstart: function (event, people) {
+                        if (people instanceof Student) {
+                            $(this).addClass("ready");
+                            return true;
+                        }
+                    },
+                    dragend: function (event, people) {
+                        $(this).removeClass("ready");
+                    },
+                    enter: function (event, people) {
+                        if (people instanceof Student) {
+                            $(this).addClass("highlight");
+                            return true;
+                        }
+                        return false;
+                    },
+                    leave: function (event, people) {
+                        $(this).removeClass("highlight");
+                    },
+                    drop: function (event, people) {
+                        if (people instanceof Student) {
+                            $(this).append($(document.createElement("div")).text(people.name));
+                        }
+                        $(this).removeClass("highlight");
+                    }
+                });
             });
         </script>  
     </head>
     <body>
         <div id="source"></div>
-        <p>Drop here:</p>  
-        <div id="target"></div>
-        <p>Teachers filtered</p>
+        <p>Students:</p>  
+        <div id="students"></div>
+        <p>Teachers:</p>
         <div id="teachers"></div>
     </body>
 </html>
