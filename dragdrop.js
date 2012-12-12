@@ -34,14 +34,14 @@
         }
         this.each(function () {
             var item = $(this);
-            if (fncs.dragstart) {
+            if (fncs.start) {
                 $(document).bind("dragstart", function (event) {
-                    fncs.dragstart.call(item, event, value);
+                    fncs.start.call(item, event, value);
                 });
             }
-            if (fncs.dragend) {
+            if (fncs.end) {
                 $(document).bind("dragend", function (event) {
-                    fncs.dragend.call(item, event, value);
+                    fncs.end.call(item, event, value);
                 });
             }
             if (fncs.enter) {
@@ -50,8 +50,8 @@
                 });
             }
             item.on("dragover", function (event) {
-                if (fncs.hover) {
-                    fncs.hover.call(item, event, value);
+                if (fncs.over) {
+                    fncs.over.call(item, event, value);
                 } else {
                     event.preventDefault();
                 }

@@ -54,13 +54,13 @@
                     $("#source").append(div);
                 });
                 $("#teachers").drop({
-                    dragstart: function (event, people) {
+                    start: function (event, people) {
                         if (people instanceof Teacher) {
                             $(this).addClass("ready");
                             return true;
                         }
                     },
-                    dragend: function (event, people) {
+                    end: function (event, people) {
                         $(this).removeClass("ready");
                     },
                     enter: function (event, people) {
@@ -82,13 +82,13 @@
                 });
                 
                 $("#students").drop({
-                    dragstart: function (event, people) {
+                    start: function (event, people) {
                         if (people instanceof Student) {
                             $(this).addClass("ready");
                             return true;
                         }
                     },
-                    dragend: function (event, people) {
+                    end: function (event, people) {
                         $(this).removeClass("ready");
                     },
                     enter: function (event, people) {
